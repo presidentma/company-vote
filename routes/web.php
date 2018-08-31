@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/company-vote','CompaniesVoteController@companiesList')->name('vote');
