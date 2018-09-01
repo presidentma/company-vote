@@ -16,3 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/company-vote','CompaniesVoteController@companiesList')->name('vote');
+Route::match(['get', 'post'],'/company-publish','CompaniesVoteController@companiesPublish')->name('publish');
+Route::post('/upload-image','CompaniesVoteController@uploadImage')->name('upload-image');
+Route::post('/give-vote','CompaniesVoteController@giveVote')->name('/give-vote');
+Route::get('/companies-data','CompaniesVoteController@companiesData')->name('companies-data');

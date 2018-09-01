@@ -22,13 +22,13 @@ class DeveloperCompaniesAndVote extends Migration
             $table->string('name',200)->comment("公司名称");
             $table->string('img_url',200)->nullable()->comment("公司logo");
             $table->string('scale',50)->comment("公司规模");
-            $table->integer('company_type_id')->default(0)->comment("公司类型id");
+            $table->string('company_type_id',200)->comment("公司类型");
             $table->string('address',50)->comment("公司所在地，市级");
-            $table->string('introduce',255)->comment("对自己公司的一句话介绍");
-            $table->string('welfare_tags',255)->comment("公司福利标签");
+            $table->string('introduce',255)->nullable()->comment("对自己公司的一句话介绍");
+            $table->string('welfare_tags',255)->nullable()->comment("公司福利标签");
             $table->integer('vote_num')->default(0)->comment("被投票数量");
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('current_timestamp on update current_timestamp'));
+            //$table->timestamp('updated_at')->default(\DB::raw('current_timestamp on update current_timestamp'));
         });
     }
 

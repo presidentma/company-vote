@@ -43,9 +43,9 @@ return [
 
     'disks' => [
 
-        'local' => [
+        'upload-logo' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => storage_path('app/public/uploads/images/logos/'.date('Ymd')),
         ],
 
         'public' => [

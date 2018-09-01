@@ -22,7 +22,7 @@ class DeveloperCompanyTypes extends Migration
             $table->increments('id');
             $table->string('name',200)->default('互联网/IT')->comment("公司类型名称");
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('current_timestamp on update current_timestamp'));
+            //$table->timestamp('updated_at')->default(\DB::raw('current_timestamp on update current_timestamp'));
         });
     }
 
