@@ -84,7 +84,7 @@
             </div>
             {{--公司规模--}}
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text-red">*</span>公司规模</label>
+                <label class="layui-form-label">公司规模</label>
                 <div class="layui-input-block">
                     <select name="scale" lay-filter="aihao">
                         <option value="3-20">0-50人</option>
@@ -97,7 +97,7 @@
             </div>
             {{--公司类型--}}
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text-red">*</span>公司类型</label>
+                <label class="layui-form-label">公司类型</label>
                 <div class="layui-input-block">
                     <select name="company_type" lay-filter="aihao">
                         <option value="未融资">未融资</option>
@@ -111,7 +111,7 @@
             </div>
             {{--公司所在地--}}
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text-red">*</span>公司地址</label>
+                <label class="layui-form-label">公司地址</label>
                 <div class="layui-input-inline">
                     <select name="province" id="province-select" lay-verify="required" lay-filter="province">
                         <option value="">请选择省</option>

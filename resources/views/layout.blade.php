@@ -7,6 +7,7 @@
     <meta name='apple-mobile-web-app-status-bar-style' content='black'>
     <meta name='format-detection' content='telephone=no'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
     <style type='text/css'>img {
             width: 100%
         }</style>
@@ -148,7 +149,7 @@
         @yield('content')
     </div>
     <div id="footer-wrapper" v-show="totalCount > pageSize">
-        @yield('footer')
+        <div id="footer"></div>
     </div>
 
 </div>

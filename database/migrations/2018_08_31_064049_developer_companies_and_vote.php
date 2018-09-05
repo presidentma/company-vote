@@ -21,9 +21,9 @@ class DeveloperCompaniesAndVote extends Migration
             $table->increments('id');
             $table->string('name',200)->comment("公司名称");
             $table->string('img_url',200)->nullable()->comment("公司logo");
-            $table->string('scale',50)->comment("公司规模");
-            $table->string('company_type_id',200)->comment("公司类型");
-            $table->string('address',50)->comment("公司所在地，市级");
+            $table->string('scale',50)->nullable()->comment("公司规模");
+            $table->string('company_type_id',200)->nullable()->comment("公司类型");
+            $table->string('address',50)->nullable()->comment("公司所在地，市级");
             $table->string('introduce',255)->nullable()->comment("对自己公司的一句话介绍");
             $table->string('welfare_tags',255)->nullable()->comment("公司福利标签");
             $table->integer('vote_num')->default(0)->comment("被投票数量");

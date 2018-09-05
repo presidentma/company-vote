@@ -24,11 +24,13 @@ let footerVue = new Vue({
 
 layui.use('laypage', function () {
     var laypage = layui.laypage;
+    let layout = screenWidth>400?['prev', 'page', 'next']:['prev', 'next'];
+    pageSize = screenWidth>400?pageSize:10;
     laypage.render({
         elem: 'footer'
         , count: totalCount
         , limit: pageSize
-        , layout: ['prev', 'page', 'next']
+        , layout: layout
         , jump: function (obj, first) {
             //点击非第一页页码时的处理逻辑。比如这里调用了ajax方法，异步获取分页数据
             if (!first) {
