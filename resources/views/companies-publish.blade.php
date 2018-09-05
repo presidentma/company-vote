@@ -64,7 +64,7 @@
             <div class="layui-upload-list upload-image">
                 <img class="layui-upload-img" src="/images/default-company-logo.png" id="company-logo">
             </div>
-            <div class="upload-center"><span class="text-red">(上传图片格式支持.jpg,.png,宽高比例为1:1)</span>
+            <div class="upload-center"><span class="text-red">(*公司logo为必须项，上传图片格式支持.jpg,.png,宽高比例为1:1)</span>
                 <p id="uploadText"></p>
             </div>
             <div class="upload-right">
@@ -72,7 +72,7 @@
                         id="upload-button">上传图片
                 </button>
             </div>
-            <input type="hidden" name="img_url"  id="img-url">
+            <input type="hidden" name="img_url" required id="img-url">
         </div>
         {{csrf_field()}}
         <div class="input-group-wrapper">
@@ -82,6 +82,14 @@
                     <input type="text" name="name" required lay-verify="required" autocomplete="off" placeholder="请输入公司名称" class="layui-input">
                 </div>
             </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text-red">*</span>一句话介绍</label>
+                <div class="layui-input-block">
+                    <input type="text" name="introduce" required lay-verify="introduce" autocomplete="off" placeholder="最多15字" class="layui-input">
+                </div>
+            </div>
+
             {{--公司规模--}}
             <div class="layui-form-item">
                 <label class="layui-form-label">公司规模</label>
@@ -113,24 +121,17 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">公司地址</label>
                 <div class="layui-input-inline">
-                    <select name="province" id="province-select" lay-verify="required" lay-filter="province">
+                    <select name="province" id="province-select" lay-verify="" lay-filter="province">
                         <option value="">请选择省</option>
                     </select>
                 </div>
                 <div class="layui-input-inline">
-                    <select name="city" id="city-select" lay-verify="required" lay-filter="city">
+                    <select name="city" id="city-select" lay-verify="" lay-filter="city">
                         <option value="">请选择城市</option>
                     </select>
                 </div>
             </div>
 
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">一句话介绍</label>
-                <div class="layui-input-block">
-                    <input type="text" name="introduce" lay-verify="introduce" autocomplete="off" placeholder="最多15字" class="layui-input">
-                </div>
-            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">福利标签</label>
                 <div class="layui-input-block">
