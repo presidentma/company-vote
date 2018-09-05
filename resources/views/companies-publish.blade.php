@@ -16,7 +16,6 @@
     <style>
         .main-wrapper {
             width: 90%;
-            padding-top: 10%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -58,7 +57,7 @@
 </head>
 
 <body>
-<form class="layui-form" method="post">
+<form class="layui-form" method="post" name="publishForm">
     <div class="main-wrapper">
 
         <div class="image-upload-wrapper">
@@ -88,11 +87,11 @@
                 <label class="layui-form-label"><span class="text-red">*</span>公司规模</label>
                 <div class="layui-input-block">
                     <select name="scale" lay-filter="aihao">
-                        <option value="3-20">3-20人</option>
-                        <option value="21-50">21-50人</option>
+                        <option value="3-20">0-50人</option>
+                        <option value="21-50">0-51人</option>
                         <option value="51-100">51-100人</option>
-                        <option value="101-200">101-200人</option>
-                        <option value="200以上">200人以上</option>
+                        <option value="101-200">151-500人</option>
+                        <option value="200以上">500人以上</option>
                     </select>
                 </div>
             </div>
@@ -101,31 +100,35 @@
                 <label class="layui-form-label"><span class="text-red">*</span>公司类型</label>
                 <div class="layui-input-block">
                     <select name="company_type" lay-filter="aihao">
-                        <option value="IT/互联网">IT/互联网</option>
-                        <option value="餐饮/娱乐">餐饮/娱</option>
-                        <option value="商贸">商贸</option>
-                        <option value="邮政快递服务">邮政快递服务</option>
-                        <option value="建筑业">建筑业</option>
+                        <option value="未融资">未融资</option>
+                        <option value="天使轮">天使轮</option>
+                        <option value="A轮">A轮</option>
+                        <option value="B轮">B轮</option>
+                        <option value="C轮">C轮</option>
+                        <option value="C轮以上">C轮以上</option>
                     </select>
                 </div>
             </div>
             {{--公司所在地--}}
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="text-red">*</span>公司类型</label>
-                <div class="layui-input-block">
-                    <select name="address" lay-filter="aihao">
-                        <option value="郑州市">郑州市</option>
-                        <option value="开封市">开封市</option>
-                        <option value="洛阳市">洛阳市</option>
-                        <option value="平顶山市">平顶山市</option>
-                        <option value="安阳市">安阳市</option>
+                <label class="layui-form-label"><span class="text-red">*</span>公司地址</label>
+                <div class="layui-input-inline">
+                    <select name="province" id="province-select" lay-verify="required" lay-filter="province">
+                        <option value="">请选择省</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="city" id="city-select" lay-verify="required" lay-filter="city">
+                        <option value="">请选择城市</option>
                     </select>
                 </div>
             </div>
+
+
             <div class="layui-form-item">
                 <label class="layui-form-label">一句话介绍</label>
                 <div class="layui-input-block">
-                    <input type="text" name="introduce" lay-verify="introduce" autocomplete="off" placeholder="最多20字" class="layui-input">
+                    <input type="text" name="introduce" lay-verify="introduce" autocomplete="off" placeholder="最多15字" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -136,69 +139,17 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">确定发布</button>
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="*" >确定发布</button>
                 </div>
             </div>
         </div>
 
     </div>
 </form>
-<script>
-    window.onload = function () {
-        layui.use(['upload', 'form'], function () {
-            var $ = layui.jquery
-                    , upload = layui.upload, form = layui.form;
-            //普通图片上传
-            var uploadInst = upload.render({
-                elem: '#upload-button'
-                , url: '/upload-image' ,
-                data:{
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                } ,
-                acceptMime: 'image/jpg, image/png',
-                exts: 'jpg|png|gif'
-                , before: function (obj) {
-                    //预读本地文件示例，不支持ie8
-                    obj.preview(function (index, file, result) {
-                        $('#company-logo').attr('src', result); //图片链接（base64）
-                    });
-                }
-                , done: function (res) {
-                    //如果上传失败
-                    console.log(res)
-                    if (res.code > 0) {
-                         $("#img-url").val(res.data.src);
-                        return layer.msg('上传成功');
-                    }
-                    //上传成功
-                }
-                , error: function () {
-                    //演示失败状态，并实现重传
-                    var uploadText = $('#uploadText');
-                    uploadText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                    uploadText.find('.demo-reload').on('click', function () {
-                        uploadInst.upload();
-                    });
-                }
-            });
-
-            form.verify({
-
-                //我们既支持上述函数式的方式，也支持下述数组的形式
-                //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
-                introduce: [
-                    /^[\S]{0,20}$/
-                    ,'一句话最多20个字'
-                ]
-            });
-
-        });
-    }
-
-
-</script>
 
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="/js/pulish.js"></script>
+<script type="text/javascript" src="/js/city.js"></script>
 </body>
 </html>

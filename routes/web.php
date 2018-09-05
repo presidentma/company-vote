@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 Route::get('/company-vote','CompaniesVoteController@companiesList')->name('vote');
 Route::match(['get', 'post'],'/company-publish','CompaniesVoteController@companiesPublish')->name('publish');

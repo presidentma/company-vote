@@ -4,39 +4,11 @@
 
 
 @section('header')
-    <img class="banner-bg" src="/images/vote-header.png"/>
+    <img class="banner-bg layui-hide-xs" src="/images/vote-header.png" />
+    <img class="banner-bg layui-hide-sm layui-hide-md layui-hide-lg" src="/images/vote-header-mobile.png" />
 @endsection
 
 <style>
-    /* .company-li .logo{
-     position: absolute;
-     top:0;
-     bottom: 0;
-     margin: auto;
-     padding: 10px;
- }
- .company-li .logo img{
-     width: 100%;
-     height: 100%;
- }
-
- .company-li .company-intro{
-     position: absolute;
-     top:0;
-     left: 35%;
-     bottom: 0;
-     padding: 10px;
-     margin: auto;
- }
- .company-li .vote{
-     position: absolute;
-     top:0;
-     right:5%;
-     bottom: 0;
-     padding: 10px;
-     margin: auto;
- }*/
-    /* second */
     .content-container {
         width: 90%;
         margin-left: 0;
@@ -169,7 +141,7 @@
                     <img src="/images/search-button.png" onclick="searchCompany()">
                 </div>
             <div class="search-company-part">
-                <img src="/images/participation.png">
+                <img src="/images/participation.png" onclick="jumpPublish()">
             </div>
 
 
@@ -200,3 +172,24 @@
 @section('footer')
 <div id="footer"></div>
 @endsection
+
+<script>
+    let totalCount = "{{$dataCount}}";
+    function jumpPublish(){
+        let publishUrl =   '/company-publish';
+        let screenWidth = window.screen.width;
+        if(screenWidth>400){
+            layer.open({
+                title:'企业信息发布',
+                type:2,
+                content:[publishUrl,'no'],
+                offset: '50px',
+                area: ['450px', '580px'],
+                resize:false
+                //fixed: false
+            })
+        }else {
+            window.location.href=publishUrl;
+        }
+    }
+</script>

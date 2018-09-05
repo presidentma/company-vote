@@ -9,12 +9,20 @@ use Illuminate\Support\Facades\Route;
 
 class CompaniesVoteController extends Controller
 {
+    /**投票主页，公司列表
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function companiesList()
     {
         $dataCount = CompaniesVote::count();
         return view('companies-list', ['name' => '十佳公司投票', 'dataCount' => $dataCount]);
     }
 
+    /**
+     * 发布公司信息
+     * @param Request $request
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function companiesPublish(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -23,17 +31,24 @@ class CompaniesVoteController extends Controller
             $companiesVoteModel->name = $postData['name'];
             $companiesVoteModel->img_url = $postData['img_url'];
             $companiesVoteModel->scale = $postData['scale'];
-            $companiesVoteModel->address = $postData['address'];
+            $companiesVoteModel->address = $postData['province'].'-'.$postData['city'];
             $companiesVoteModel->company_type_id = $postData['company_type'];
             $companiesVoteModel->introduce = $postData['introduce'];
             $companiesVoteModel->welfare_tags = $postData['welfare_tags'];
             if ($companiesVoteModel->save()) {
-                return redirect()->route('vote');
+                return ['code' => 1, 'msg' => '发布成功', 'url' => route('vote')];
+            } else {
+                return ['code' => 0, 'msg' => '发布失败,请重试'];
             }
         }
         return view('companies-publish', ['title' => '发布公司']);
     }
 
+    /**
+     * 上传公司logo
+     * @param Request $request
+     * @return array
+     */
     public function uploadImage(Request $request)
     {
         $status = 0;
@@ -65,37 +80,47 @@ class CompaniesVoteController extends Controller
         return ['code' => $status, 'msg' => $message, 'data' => ['src' => $fileUrl]];
     }
 
+    /**
+     * 获取已发布的公司信息
+     * @param Request $request
+     * @return array
+     */
     public function companiesData(Request $request)
     {
         $returnData = ['code' => 0, 'msg' => '没有数据', 'data' => []];
         $pageIndex = $request->get('pageIndex');
         $pageSize = $request->get('pageSize');
-        $keywords = $request->get('keywords',null);
+        $keywords = $request->get('keywords', null);
         if (!$pageIndex || !$pageSize) {
             return $returnData;
         }
         $query = CompaniesVote::select();
-        isset($keywords) && !empty($keywords) && $query->where('name','like','%'.$keywords.'%');
+        isset($keywords) && !empty($keywords) && $query->where('name', 'like', '%' . $keywords . '%');
         $dataCount = $query->count();
-        $selectQuery =   CompaniesVote::skip(($pageIndex - 1) * $pageSize)->take($pageSize);
-        isset($keywords) && !empty($keywords) && $selectQuery->where('name','like','%'.$keywords.'%');
-        $companiesData = $selectQuery->orderBy('vote_num','DESC')->orderBy('id','ASC')->get()->toArray();
-        return ['code' => 1, 'msg' => '获取成功', 'data' => ['companiesData' => $companiesData,'count'=>$dataCount]];
+        $selectQuery = CompaniesVote::skip(($pageIndex - 1) * $pageSize)->take($pageSize);
+        isset($keywords) && !empty($keywords) && $selectQuery->where('name', 'like', '%' . $keywords . '%');
+        $companiesData = $selectQuery->orderBy('vote_num', 'DESC')->orderBy('id', 'ASC')->get()->toArray();
+        return ['code' => 1, 'msg' => '获取成功', 'data' => ['companiesData' => $companiesData, 'count' => $dataCount]];
     }
 
+    /**
+     * 投票
+     * @param Request $request
+     * @return array
+     */
     public function giveVote(Request $request)
     {
         $maxVoteTime = 3;//每人最大可投票次数
         $companyId = $request->request->get('companyId');
         $clientIp = $request->getClientIp();
-        $clientVoteTime = Cache::get($clientIp,0);
-        if($clientVoteTime>=3){
-           return ['code'=>0,'msg'=>'对不起，您的次数已用完'];
+        $clientVoteTime = Cache::get($clientIp, 0);
+        if ($clientVoteTime >= 3) {
+            return ['code' => 0, 'msg' => '对不起，您的次数已用完'];
         }
-        $result = CompaniesVote::where('id',$companyId)->increment('vote_num');
-        if($result){
-            Cache::forever($clientIp,($clientVoteTime+1));
-            return ['code'=>1,'msg'=>'投票成功'];
+        $result = CompaniesVote::where('id', $companyId)->increment('vote_num');
+        if ($result) {
+            Cache::forever($clientIp, ($clientVoteTime + 1));
+            return ['code' => 1, 'msg' => '投票成功'];
         }
     }
 

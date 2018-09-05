@@ -44,6 +44,8 @@
         #content-list-wrapper {
             display: flex;
             justify-content: center;
+            min-height: 350px;
+            margin-top: 5px;
         }
 
         .search-wrapper {
@@ -72,14 +74,14 @@
                 margin-top: 6%;
                 padding-top: 6%;
                 text-align: left;
-                font-size: 0.1rem;
+                font-size: 0.03rem;
                 white-space: nowrap;
                 border-top: solid 1.5px #ffffff;
             }
 
             .company-li .documents-wrapper .company-intro .praise {
                 text-align: right;
-                font-size: 0.1rem;
+                font-size: 0.03rem;
             }
 
             .company-li .documents-wrapper .company-intro .praise .heart {
@@ -156,82 +158,6 @@
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/js/vue.min.js"></script>
 <script type="text/javascript" src="/plugins/layui/layui.all.js"></script>
-<script>
-    let pageIndex = 1;
-    let pageSize = 16;
-    let totalCount = "{{$dataCount}}";
-    let keywords = null;
-    let pageVue = new Vue({
-        el: '#content-list-wrapper',
-        data: {
-            companiesData: [],
-        },
-        methods: {
-            giveVote(companyId, index){
-                giveVote(companyId, index);
-            }
-        }
-    });
-
-    let footerVue = new Vue({
-        el: '#footer-wrapper',
-        data: {
-            totalCount: totalCount,
-            pageSize: pageSize
-        }
-    });
-
-
-    layui.use('laypage', function () {
-        var laypage = layui.laypage;
-        laypage.render({
-            elem: 'footer'
-            , count: totalCount
-            , limit: pageSize
-            , layout: ['prev', 'page', 'next']
-            , jump: function (obj, first) {
-                //点击非第一页页码时的处理逻辑。比如这里调用了ajax方法，异步获取分页数据
-                if (!first) {
-                    getCompaniesData(obj.curr, obj.limit, null);
-                }
-            }
-        });
-    });
-
-
-    function getCompaniesData(pageIndex, pageSize, companyName) {
-        let requestParams = {
-            pageIndex: pageIndex,
-            pageSize: pageSize,
-            keywords: companyName
-        };
-        $.get('/companies-data', requestParams, function (result) {
-            pageVue.companiesData = result.data.companiesData;
-            footerVue.totalCount = result.data.count;
-        }, 'json')
-    }
-
-    function searchCompany() {
-        keywords = $("#company-name").val();
-        getCompaniesData(pageIndex, pageSize, keywords);
-    }
-    ;
-
-    function giveVote(companyId, index) {
-        let requestParams = {
-            companyId: companyId,
-            _token: $('meta[name="csrf-token"]').attr('content')
-        };
-        $.post('/give-vote', requestParams, function (result) {
-            if (result.code) {
-                pageVue.companiesData[index].vote_num += 1;
-            }
-            layer.msg(result.msg);
-        }, 'json')
-    }
-    window.onload = function () {
-        getCompaniesData(pageIndex, pageSize);
-    }
-</script>
+<script type="text/javascript" src="/js/vote.js"></script>
 </html>
 
