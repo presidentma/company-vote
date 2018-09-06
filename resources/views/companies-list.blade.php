@@ -12,86 +12,108 @@
     .content-container {
         width: 90%;
         margin-left: 0;
-        margin-right: 0;;
+        margin-right: 0;
     }
-
+{{-- 桌面端begin --}}
     .company-li {
-        position: relative;
+        height: 90px;
     }
 
     .company-li .documents-wrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        height:70px; 
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
-        padding: 10px;
+        background-color: #fff;
     }
 
     .company-li .documents-wrapper.font-size {
-
+        font-family: "SimSun"
+    }
+    .company-li .documents-wrapper .company-logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
-    .company-li .documents-wrapper img {
-        position: relative;
-        flex: 1 auto auto;
-        align-self: center;
+    .company-li .documents-wrapper .company-logo img {
         width: 50px;
         height: 50px;
-        text-align: center;
         border-radius: 50%;
-        margin-left: 10px;
+        box-sizing: border-box;
+        border: solid 1px #00eab1;
+        margin: 0 10px;
     }
 
     /* second */
 
     .company-li .documents-wrapper .company-intro {
-        position: relative;
-        padding-top: 3%;
-        flex: 2.6;
-        width: 100%;
-        text-align: center;
-        color: #ffffff;
+        flex: 1;
         display: flex;
-        padding-left: 7px;
         flex-direction: column;
+
     }
 
     .company-li .documents-wrapper .company-intro .name {
-        text-align: left;
+        flex: 0 0 32px;
+        position: relative;
+    }
+    .company-li .documents-wrapper .company-intro .title {
+        position: absolute;
+        height: 16px;
+        font-size: 16px;
+        font-weight: 500;
+        bottom: 3px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
     }
 
     .company-li .documents-wrapper .company-intro .words {
-        margin-top: 6%;
-        padding-top: 6%;
-        text-align: left;
-        font-size: 0.7rem;
-        border-top: solid 1.5px #ffffff;
-    }
 
-    .company-li .documents-wrapper .company-intro .praise {
-        text-align: right;
-        font-size: 0.7rem;
-        color: #ff69fa;
     }
-    .company-li .documents-wrapper .company-intro .praise .heart {
-        width: 20px;
-        height: 20px;
+    .company-li .documents-wrapper .company-intro .words .content{
+        padding-right: 10px;
+        height: 30px;
+        line-height: 15px;
+        font-size: 12px;
+        color: #b8b8b8;
+        word-break: break-all;
+        text-align: justify;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .company-li .documents-wrapper .vote {
-        position: relative;
-        flex: 1;
-        width: 100%;
-        padding: 6%;
-        text-align: right;
-        word-break: break-all;
-        font-weight: 500;
+        flex: 0 0 35px;
+        background-color: #00eab1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+       }
+    .company-li .documents-wrapper .vote .word{
+       margin: auto;
     }
+    .company-li .documents-wrapper .vote .word .content{
+       height: 32px;
+       line-height: 16px;
+       width: 16px;
+    }
+    .company-li .documents-wrapper .vote .icon-num {
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+    }
+
+
+
+
     .search-content{
         width: 90%;
     }
@@ -128,7 +150,7 @@
        /* placeholder位置  */
                 text-align: left;
          }
-
+{{-- 桌面端end --}}
 
          /*移动端部分 */
 
@@ -217,6 +239,8 @@
           .mobile-content-wrapper .li-item-wrapper .company-contents .title-container .title {
             position: absolute;
             bottom: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
       
           .mobile-content-wrapper .li-item-wrapper .company-contents .sub-title-container {
@@ -266,15 +290,18 @@
 @section('content')
     <ul class="content-container layui-col-space20 layui-hide-xs">
         <li class="layui-col-xs6 layui-col-sm4 layui-col-md3 company-li" v-for="(companyItem,index) in companiesData">
-            <img width="100%" src="/images/companies-background.png">
             <div class="documents-wrapper font-size">
-                <img :src="companyItem.img_url?companyItem.img_url:'/images/default-company-logo.png'">
-                <div class="company-intro">
-                    <div class="name" v-text="companyItem.name"></div>
-                    <div class="words" v-text="companyItem.introduce"></div>
-                    <div class="praise"><img class="heart" src="/images/heart.png"><span v-text="companyItem.vote_num"></span></div>
+                <div class="company-logo">
+                        <img :src="companyItem.img_url?companyItem.img_url:'/images/default-company-logo.png'" />
                 </div>
-                <div class="vote"><span @click="giveVote(companyItem.id,index)">投票</span></div>
+                <div class="company-intro">
+                    <div class="name"><span class="title" v-text="companyItem.name"></span></div>
+                    <div class="words"><div class="content" v-text="companyItem.introduce"></div></div>
+                </div>
+                <div class="vote">
+                    <div class="word"><div class="content" @click="giveVote(companyItem.id,index)">投票</div></div>
+                    <div class="icon-num"><i class="fa fa-heart icon" @click="giveVote(companyItem.id,index)"></i><div v-text="companyItem.vote_num"></div></div>
+                </div>
             </div>
         </li>
     </ul>

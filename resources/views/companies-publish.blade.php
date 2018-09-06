@@ -72,7 +72,7 @@
                         id="upload-button">上传图片
                 </button>
             </div>
-            <input type="hidden" name="img_url" required id="img-url">
+            <input type="hidden" name="img_url" required lay-verify="required" id="img-url">
         </div>
         {{csrf_field()}}
         <div class="input-group-wrapper">
@@ -107,7 +107,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">公司类型</label>
                 <div class="layui-input-block">
-                    <select name="company_type" lay-filter="aihao">
+                    <select name="company_type" lay-filter="">
                         <option value="未融资">未融资</option>
                         <option value="天使轮">天使轮</option>
                         <option value="A轮">A轮</option>
