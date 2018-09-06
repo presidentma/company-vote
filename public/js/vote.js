@@ -69,7 +69,9 @@ function giveVote(companyId, index) {
             pageVue.companiesData[index].vote_num += 1;
         }
         layer.msg(result.msg,{
-            offset:'auto'
+           offset: '20px',
+zIndex:layer.zIndex
+
         });
     }, 'json')
 }
