@@ -237,10 +237,15 @@
           }
       
           .mobile-content-wrapper .li-item-wrapper .company-contents .title-container .title {
-            position: absolute;
+                   position: absolute;
+height:1.1rem;
             bottom: 3px;
             overflow: hidden;
             text-overflow: ellipsis;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
           }
       
           .mobile-content-wrapper .li-item-wrapper .company-contents .sub-title-container {
